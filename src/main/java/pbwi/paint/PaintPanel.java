@@ -5,17 +5,64 @@
  */
 package pbwi.paint;
 
-/**
- *
- * @author Kamil
- */
-public class PaintPanel extends javax.swing.JPanel {
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+
+public class PaintPanel extends javax.swing.JPanel {
+    private static PaintPanel instance = null;
+    private Class shapeClass;
+    
+    public void setShapeClass(Class shapeClass) {
+        this.shapeClass = shapeClass;
+    }
+    int x,y;
     /**
      * Creates new form PaintPanel
      */
     public PaintPanel() {
         initComponents();
+        this.addMouseListener(new MouseAdapter() {
+                public void mousePressed(MouseEvent e) {
+                x = e.getX();
+                y = e.getY();
+
+                System.out.println(x + " " + y);
+                repaint();
+                }
+        });
+    }
+    public static PaintPanel getInstance() {
+        if(instance == null) {
+                        instance = new PaintPanel();
+        }
+        return instance;
+    }
+    
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        
+        Shape shape = null;
+        if(shapeClass == Rectangle.class) {
+            shape = new Rectangle(50,50,x-25,y-25);
+        } else if (shapeClass == Ellipse.class) {
+            shape = new Ellipse(50,50,x-25,y-25);
+        } else if (shapeClass == Line.class) {
+            shape = new Line(x-25,y,x+25,y);
+        } else if (shapeClass == Polygon.class)
+        {
+             int xpoints[] = {25, 145, 25, 145, 25};
+             int ypoints[] = {25, 25, 145, 145, 25};
+             int npoints = 5;
+             
+             shape = new Polygon(npoints, xpoints, ypoints);
+        }
+        if(shape != null)
+            shape.draw(g);
+        
     }
 
     /**

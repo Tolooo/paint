@@ -20,6 +20,7 @@ public class PaintPanel extends javax.swing.JPanel {
     private List<Shape> shapeList = new LinkedList();
     private List<Command> undoHistory = new LinkedList();
     private List<Command> redoHistory = new LinkedList();
+    private boolean newShape;
 
     public void setShapeClass(Class shapeClass) {
         this.shapeClass = shapeClass;
@@ -36,6 +37,7 @@ public class PaintPanel extends javax.swing.JPanel {
 
             @Override
             public void mousePressed(MouseEvent e) {
+                newShape=true;
                 x = x1 = e.getX();
                 y = y1 = e.getY();
 
@@ -44,7 +46,7 @@ public class PaintPanel extends javax.swing.JPanel {
             @Override
             public void mouseReleased(MouseEvent e) {
                 push(shape);
-                shape=null;
+                newShape=false;
             }
 
         });
@@ -76,6 +78,7 @@ public class PaintPanel extends javax.swing.JPanel {
         shapeList.forEach((s) -> {
             s.draw(g);
         });
+        if(newShape){
         shape = null;
         if (shapeClass == Rectangle.class) {
             shape = new Rectangle(Math.abs(y1 - y), Math.abs(x1 - x), Math.min(x1, x), Math.min(y1, y));
@@ -92,7 +95,7 @@ public class PaintPanel extends javax.swing.JPanel {
         }
         if (shape != null) {
             shape.draw(g);
-        }
+        }}
 
     }
 

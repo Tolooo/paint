@@ -18,6 +18,8 @@ public class PaintPanel extends javax.swing.JPanel {
     private Class shapeClass;
     private Shape shape;
     private List<Shape> shapeList = new LinkedList();
+    private List<Command> undoHistory = new LinkedList();
+    private List<Command> redoHistory = new LinkedList();
 
     public void setShapeClass(Class shapeClass) {
         this.shapeClass = shapeClass;
@@ -41,7 +43,8 @@ public class PaintPanel extends javax.swing.JPanel {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                shapeList.add(shape);
+                push(shape);
+                shape=null;
             }
 
         });
@@ -116,6 +119,92 @@ public class PaintPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public void pop() {
+        //to do usuwania obiektow raczej nie bedzie uzywane
+        if (shapeList.size() > 0) {
+            undoHistory.add(new UndoCommand(shapeList.remove(shapeList.size() - 1)));
+            redoHistory.clear();
+        }
+    }
+
+    public void push(Shape shape) {
+        undoHistory.add(new RedoCommand(shape));
+        redoHistory.clear();
+        shapeList.add(shape);
+        repaint();
+//        System.out.println("Dodano:" + shapeList);
+//        System.out.println("Dodano:" + undoHistory);
+//        System.out.println("Dodano:" + redoHistory);
+    }
+
+    public void undo() {
+        if (undoHistory.size() > 0) {
+            Command c = undoHistory.remove(undoHistory.size() - 1);
+            redoHistory.add(c);
+            c.undo();
+            repaint(); 
+//            System.out.println("Cofnieto:" + shapeList);
+//            System.out.println("Cofnieto:" + undoHistory);
+//            System.out.println("Cofnieto:" + redoHistory);
+        }
+    }
+
+    public void redo() {
+        if (redoHistory.size() > 0) {
+            Command c = redoHistory.remove(redoHistory.size() - 1);
+            undoHistory.add(c);
+            c.redo();
+            repaint();
+//            System.out.println("Ponowiono:" + shapeList);
+//            System.out.println("Ponowiono:" + undoHistory);
+//            System.out.println("Ponowiono:" + redoHistory);
+
+        }
+    }
+
+    private class UndoCommand implements Command {
+
+        private Shape shape;
+
+        public UndoCommand(Shape shape) {
+            this.shape = shape;
+        }
+
+        @Override
+        public void undo() {
+            shapeList.add(shape);
+        }
+
+        @Override
+        public void redo() {
+            if (shapeList.size() > 0) {
+                shapeList.remove(shapeList.size() - 1);
+            }
+        }
+
+    }
+
+    private class RedoCommand implements Command {
+
+        private Shape shape;
+
+        public RedoCommand(Shape shape) {
+            this.shape = shape;
+        }
+
+        @Override
+        public void undo() {
+            if (shapeList.size() > 0) {
+                shapeList.remove(shapeList.size() - 1);
+            }
+        }
+
+        @Override
+        public void redo() {
+            shapeList.add(shape);
+        }
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

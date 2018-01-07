@@ -7,8 +7,8 @@ package pbwi.paint;
 
 import java.awt.Graphics;
 
-
 public class Polygon extends Shape {
+
     private int nPoints;
     private int[] xPoints;
     private int[] yPoints;
@@ -18,11 +18,39 @@ public class Polygon extends Shape {
         this.xPoints = xPoints;
         this.yPoints = yPoints;
     }
-    
-    
+
     @Override
     public void drawShape(Graphics g) {
-       g.drawPolygon(xPoints, yPoints, nPoints);
+        g.drawPolygon(xPoints, yPoints, nPoints);
     }
-    
+
+    @Override
+    public void accept(Visitor v) {
+        v.visitPolygon(this);
+    }
+
+    public int getnPoints() {
+        return nPoints;
+    }
+
+    public void setnPoints(int nPoints) {
+        this.nPoints = nPoints;
+    }
+
+    public int[] getxPoints() {
+        return xPoints;
+    }
+
+    public void setxPoints(int[] xPoints) {
+        this.xPoints = xPoints;
+    }
+
+    public int[] getyPoints() {
+        return yPoints;
+    }
+
+    public void setyPoints(int[] yPoints) {
+        this.yPoints = yPoints;
+    }
+
 }

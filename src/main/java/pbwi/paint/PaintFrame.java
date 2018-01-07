@@ -44,6 +44,14 @@ public class PaintFrame extends javax.swing.JFrame {
         PolygonButton = new javax.swing.JButton();
         UndoButton = new javax.swing.JButton();
         RedoButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        xScaleInput = new javax.swing.JTextField();
+        yScaleInput = new javax.swing.JTextField();
+        ScaleButton = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        xMoveInput = new javax.swing.JTextField();
+        yMoveInput = new javax.swing.JTextField();
+        MoveButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,7 +63,7 @@ public class PaintFrame extends javax.swing.JFrame {
         );
         paintPanelLayout.setVerticalGroup(
             paintPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 246, Short.MAX_VALUE)
+            .addGap(0, 402, Short.MAX_VALUE)
         );
 
         RectangleButton.setText("Kwadrat");
@@ -100,6 +108,36 @@ public class PaintFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Scale");
+
+        xScaleInput.setText("1.5555");
+        xScaleInput.setToolTipText("xScale");
+
+        yScaleInput.setText("1.5555");
+        yScaleInput.setToolTipText("yScale");
+
+        ScaleButton.setText("Scale");
+        ScaleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ScaleButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Move");
+
+        xMoveInput.setText("1.5555");
+        xMoveInput.setToolTipText("xMove");
+
+        yMoveInput.setText("1.5555");
+        yMoveInput.setToolTipText("yMove");
+
+        MoveButton.setText("Move");
+        MoveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MoveButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -110,14 +148,28 @@ public class PaintFrame extends javax.swing.JFrame {
                     .addComponent(RectangleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(PolygonButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(EllipseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(LineButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(LineButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ScaleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(MoveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(xScaleInput)
+                                    .addComponent(yScaleInput)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(xMoveInput)
+                                .addComponent(yMoveInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(UndoButton)
                         .addGap(18, 18, 18)
                         .addComponent(RedoButton)
-                        .addGap(0, 291, Short.MAX_VALUE))
+                        .addGap(0, 296, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addComponent(paintPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -142,6 +194,22 @@ public class PaintFrame extends javax.swing.JFrame {
                         .addComponent(LineButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(PolygonButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(xScaleInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(yScaleInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ScaleButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(xMoveInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(yMoveInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(MoveButton)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -166,13 +234,23 @@ public class PaintFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_PolygonButtonActionPerformed
 
     private void UndoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UndoButtonActionPerformed
-       paintPanel.undo();
+        paintPanel.undo();
     }//GEN-LAST:event_UndoButtonActionPerformed
 
     private void RedoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RedoButtonActionPerformed
         paintPanel.redo();
     }//GEN-LAST:event_RedoButtonActionPerformed
-                                        
+
+    private void ScaleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ScaleButtonActionPerformed
+
+        paintPanel.visitLast(new ScaleVisitor(Double.parseDouble(xScaleInput.getText()), Double.parseDouble(yScaleInput.getText())));
+        paintPanel.repaint();
+    }//GEN-LAST:event_ScaleButtonActionPerformed
+
+    private void MoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MoveButtonActionPerformed
+        paintPanel.visitLast(new MoveVisitor(Double.parseDouble(xMoveInput.getText()), Double.parseDouble(yMoveInput.getText())));
+        paintPanel.repaint();
+    }//GEN-LAST:event_MoveButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -190,11 +268,19 @@ public class PaintFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton EllipseButton;
     private javax.swing.JButton LineButton;
+    private javax.swing.JButton MoveButton;
     private javax.swing.JButton PolygonButton;
     private javax.swing.JButton RectangleButton;
     private javax.swing.JButton RedoButton;
+    private javax.swing.JButton ScaleButton;
     private javax.swing.JButton UndoButton;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private pbwi.paint.PaintPanel paintPanel;
+    private javax.swing.JTextField xMoveInput;
+    private javax.swing.JTextField xScaleInput;
+    private javax.swing.JTextField yMoveInput;
+    private javax.swing.JTextField yScaleInput;
     // End of variables declaration//GEN-END:variables
 
 }

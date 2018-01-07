@@ -37,7 +37,7 @@ public class PaintPanel extends javax.swing.JPanel {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                newShape=true;
+                newShape = true;
                 x = x1 = e.getX();
                 y = y1 = e.getY();
 
@@ -46,7 +46,7 @@ public class PaintPanel extends javax.swing.JPanel {
             @Override
             public void mouseReleased(MouseEvent e) {
                 push(shape);
-                newShape=false;
+                newShape = false;
             }
 
         });
@@ -78,24 +78,25 @@ public class PaintPanel extends javax.swing.JPanel {
         shapeList.forEach((s) -> {
             s.draw(g);
         });
-        if(newShape){
-        shape = null;
-        if (shapeClass == Rectangle.class) {
-            shape = new Rectangle(Math.abs(y1 - y), Math.abs(x1 - x), Math.min(x1, x), Math.min(y1, y));
-        } else if (shapeClass == Ellipse.class) {
-            shape = new Ellipse(Math.abs(y1 - y), Math.abs(x1 - x), Math.min(x1, x), Math.min(y1, y));
-        } else if (shapeClass == Line.class) {
-            shape = new Line(x, y, x1, y1);
-        } else if (shapeClass == Polygon.class) {
-            int xpoints[] = {25, 145, 25, 145, 25};
-            int ypoints[] = {25, 25, 145, 145, 25};
-            int npoints = 5;
+        if (newShape) {
+            shape = null;
+            if (shapeClass == Rectangle.class) {
+                shape = new Rectangle(Math.abs(y1 - y), Math.abs(x1 - x), Math.min(x1, x), Math.min(y1, y));
+            } else if (shapeClass == Ellipse.class) {
+                shape = new Ellipse(Math.abs(y1 - y), Math.abs(x1 - x), Math.min(x1, x), Math.min(y1, y));
+            } else if (shapeClass == Line.class) {
+                shape = new Line(x, y, x1, y1);
+            } else if (shapeClass == Polygon.class) {
+                int xpoints[] = {25, 145, 25, 145, 25};
+                int ypoints[] = {25, 25, 145, 145, 25};
+                int npoints = 5;
 
-            shape = new Polygon(npoints, xpoints, ypoints);
+                shape = new Polygon(npoints, xpoints, ypoints);
+            }
+            if (shape != null) {
+                shape.draw(g);
+            }
         }
-        if (shape != null) {
-            shape.draw(g);
-        }}
 
     }
 
@@ -145,7 +146,7 @@ public class PaintPanel extends javax.swing.JPanel {
             Command c = undoHistory.remove(undoHistory.size() - 1);
             redoHistory.add(c);
             c.undo();
-            repaint(); 
+            repaint();
 //            System.out.println("Cofnieto:" + shapeList);
 //            System.out.println("Cofnieto:" + undoHistory);
 //            System.out.println("Cofnieto:" + redoHistory);
@@ -162,6 +163,12 @@ public class PaintPanel extends javax.swing.JPanel {
 //            System.out.println("Ponowiono:" + undoHistory);
 //            System.out.println("Ponowiono:" + redoHistory);
 
+        }
+    }
+
+    void visitLast(Visitor visitor) {
+        if (shapeList.size() > 0) {
+            shapeList.get(shapeList.size() - 1).accept(visitor);
         }
     }
 

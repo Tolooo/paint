@@ -26,7 +26,7 @@ public class Rectangle extends Shape {
 
     @Override
     public void drawShape(Graphics g) {
-        g.fillRect(x, y, width, height);
+        g.drawRect(x, y, width, height);
     }
     
     

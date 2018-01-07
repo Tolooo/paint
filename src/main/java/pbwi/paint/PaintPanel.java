@@ -9,60 +9,88 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+import java.util.LinkedList;
+import java.util.List;
 
 public class PaintPanel extends javax.swing.JPanel {
+
     private static PaintPanel instance = null;
     private Class shapeClass;
-    
+    private Shape shape;
+    private List<Shape> shapeList = new LinkedList();
+
     public void setShapeClass(Class shapeClass) {
         this.shapeClass = shapeClass;
     }
-    int x,y;
+    int x, x1, y, y1;
+
     /**
      * Creates new form PaintPanel
      */
     public PaintPanel() {
         initComponents();
+        setShapeClass(Rectangle.class);
         this.addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent e) {
-                x = e.getX();
-                y = e.getY();
 
-                System.out.println(x + " " + y);
-                repaint();
-                }
+            @Override
+            public void mousePressed(MouseEvent e) {
+                x = x1 = e.getX();
+                y = y1 = e.getY();
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                shapeList.add(shape);
+            }
+
         });
+        this.addMouseMotionListener(new MouseAdapter() {
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                //To change body of generated methods, choose Tools | Templates.
+
+                x1 = e.getX();
+                y1 = e.getY();
+                repaint();
+            }
+
+        });
+
     }
+
     public static PaintPanel getInstance() {
-        if(instance == null) {
-                        instance = new PaintPanel();
+        if (instance == null) {
+            instance = new PaintPanel();
         }
         return instance;
     }
-    
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
-        Shape shape = null;
-        if(shapeClass == Rectangle.class) {
-            shape = new Rectangle(50,50,x-25,y-25);
+        shapeList.forEach((s) -> {
+            s.draw(g);
+        });
+        shape = null;
+        if (shapeClass == Rectangle.class) {
+            shape = new Rectangle(Math.abs(y1 - y), Math.abs(x1 - x), Math.min(x1, x), Math.min(y1, y));
         } else if (shapeClass == Ellipse.class) {
-            shape = new Ellipse(50,50,x-25,y-25);
+            shape = new Ellipse(Math.abs(y1 - y), Math.abs(x1 - x), Math.min(x1, x), Math.min(y1, y));
         } else if (shapeClass == Line.class) {
-            shape = new Line(x-25,y,x+25,y);
-        } else if (shapeClass == Polygon.class)
-        {
-             int xpoints[] = {25, 145, 25, 145, 25};
-             int ypoints[] = {25, 25, 145, 145, 25};
-             int npoints = 5;
-             
-             shape = new Polygon(npoints, xpoints, ypoints);
+            shape = new Line(x, y, x1, y1);
+        } else if (shapeClass == Polygon.class) {
+            int xpoints[] = {25, 145, 25, 145, 25};
+            int ypoints[] = {25, 25, 145, 145, 25};
+            int npoints = 5;
+
+            shape = new Polygon(npoints, xpoints, ypoints);
         }
-        if(shape != null)
+        if (shape != null) {
             shape.draw(g);
-        
+        }
+
     }
 
     /**

@@ -60,6 +60,9 @@
   </Layout>
   <SubComponents>
     <Container class="pbwi.paint.PaintPanel" name="paintPanel">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="PaintFrame_paintPanel"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">

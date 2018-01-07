@@ -17,15 +17,16 @@ import javax.swing.JToolBar;
  *
  * @author Kamil
  */
-public class PaintFrame extends javax.swing.JFrame{
+public class PaintFrame extends javax.swing.JFrame {
+
     private JButton Rectangle, Ellipse, Polygon, Line;
-    private int x,y;
+    private int x, y;
+
     public PaintFrame() {
         initComponents();
         //paintPanel = PaintPanel.getInstance();
-        paintPanel.setBackground(new java.awt.Color(90,90,90));
+        // paintPanel.setBackground(new java.awt.Color(255,255,255));
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -140,12 +141,10 @@ public class PaintFrame extends javax.swing.JFrame{
      */
     public static void main(String args[]) {
         PaintFrame paintFrame = new PaintFrame();
-        
-        
-                
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                 paintFrame.setVisible(true);
+                paintFrame.setVisible(true);
             }
         });
     }

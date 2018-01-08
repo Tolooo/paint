@@ -33,8 +33,14 @@ public class MoveVisitor implements Visitor {
 
     @Override
     public void visitPolygon(Polygon p) {
+        int nPoints = p.getnPoints();
+        int[] xPoints = p.getxPoints();
+        int[] yPoints = p.getyPoints();
+        for (int i = 0; i < nPoints; i++) {
+            xPoints[i] += xMove;
+            yPoints[i] += yMove;
 
-        //????
+        }
     }
 
     @Override

@@ -29,8 +29,23 @@ public class ScaleVisitor implements Visitor {
 
     @Override
     public void visitPolygon(Polygon p) {
+        int nPoints = p.getnPoints();
+        int[] xPoints = p.getxPoints();
+        int[] yPoints = p.getyPoints();
 
-        //????
+        int minx = xPoints[nPoints - 1];
+        int maxx = (xPoints[1]);
+        maxx = minx + (int) ((maxx - minx) * xScale);
+
+        int miny = yPoints[0];
+        int maxy = (yPoints[2]);
+        maxy = miny + (int) ((maxy - miny) * yScale);
+
+        int xpoints[] = {minx + (maxx - minx) / 2, maxx, maxx - (maxx - minx) / 5, minx + (maxx - minx) / 5, minx};
+        int ypoints[] = {miny, miny + (maxy - miny) / 3, maxy, maxy, miny + (maxy - miny) / 3};
+
+        p.setxPoints(xpoints);
+        p.setyPoints(ypoints);
     }
 
     @Override

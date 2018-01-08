@@ -143,15 +143,15 @@ public class PaintPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    public Shape pop() {
-        Shape result = null;
-        if (shapeList.size() > 0) {
-            result = shapeList.remove(shapeList.size() - 1);
-            undoHistory.add(new UndoCommand(result));
-            redoHistory.clear();
-        }
-        return result;
-    }
+//    public Shape pop() {
+//        Shape result = null;
+//        if (shapeList.size() > 0) {
+//            result = shapeList.remove(shapeList.size() - 1);
+//            undoHistory.add(new UndoCommand(result));
+//            redoHistory.clear();
+//        }
+//        return result;
+//    }
 
     public void push(Shape shape) {
         undoHistory.add(new RedoCommand(shape));

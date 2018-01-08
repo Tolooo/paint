@@ -8,7 +8,6 @@ package pbwi.paint;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Stroke;
 
 public abstract class Shape {
@@ -24,8 +23,9 @@ public abstract class Shape {
     }
 
     public Stroke getStroke() {
-        return new BasicStroke((float) 10.5); //zmienic na BasicStroke();
+        return new BasicStroke();
     }
 
     public abstract void accept(Visitor v);
+
 }

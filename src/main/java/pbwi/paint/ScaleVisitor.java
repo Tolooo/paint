@@ -41,4 +41,9 @@ public class ScaleVisitor implements Visitor {
         l.setY2(l.getY1() - (int) yR);
     }
 
+    @Override
+    public Visitor reverse() {
+        return new ScaleVisitor(1 / xScale, 1 / yScale);
+    }
+
 }

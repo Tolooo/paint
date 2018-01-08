@@ -16,7 +16,7 @@ public class MoveVisitor implements Visitor {
 
     public MoveVisitor(double xMove, double yMove) {
         this.xMove = xMove;
-        this.yMove = (-1)*yMove;
+        this.yMove = (-1) * yMove;
     }
 
     @Override
@@ -46,4 +46,8 @@ public class MoveVisitor implements Visitor {
         l.setY2((int) (l.getY2() + yMove));
     }
 
+    @Override
+    public Visitor reverse() {
+        return new MoveVisitor((-1) * xMove, yMove);
+    }
 }

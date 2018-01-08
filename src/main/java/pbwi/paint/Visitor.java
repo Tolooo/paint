@@ -19,4 +19,6 @@ interface Visitor {
 
     public void visitLine(Line l);
 
+    public Visitor reverse();
+
 }

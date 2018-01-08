@@ -8,7 +8,6 @@ package pbwi.paint;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -38,10 +37,11 @@ public class PaintPanel extends javax.swing.JPanel {
     public void setStroke(float value) {
         this.stroke = new BasicStroke(value);
     }
-    
+
     public void setColor(Color color) {
         this.color = color;
     }
+
     public PaintPanel() {
         initComponents();
         color = Color.BLACK;
@@ -97,9 +97,9 @@ public class PaintPanel extends javax.swing.JPanel {
             if (shapeClass == Rectangle.class) {
                 shape = new ColorDecorator(new LineStrokeDecorator(new Rectangle(Math.abs(y1 - y), Math.abs(x1 - x), Math.min(x1, x), Math.min(y1, y)), stroke), color);
             } else if (shapeClass == Ellipse.class) {
-                shape = new ColorDecorator( new LineStrokeDecorator(new Ellipse(Math.abs(y1 - y), Math.abs(x1 - x), Math.min(x1, x), Math.min(y1, y)), stroke), color);
+                shape = new ColorDecorator(new LineStrokeDecorator(new Ellipse(Math.abs(y1 - y), Math.abs(x1 - x), Math.min(x1, x), Math.min(y1, y)), stroke), color);
             } else if (shapeClass == Line.class) {
-                shape = new ColorDecorator(new LineStrokeDecorator(new Line(x, y, x1, y1),stroke), color);
+                shape = new ColorDecorator(new LineStrokeDecorator(new Line(x, y, x1, y1), stroke), color);
             } else if (shapeClass == Polygon.class) {
                 int xpoints[] = {25, 145, 25, 145, 25};
                 int ypoints[] = {25, 25, 145, 145, 25};
@@ -137,12 +137,14 @@ public class PaintPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    public void pop() {
-        //to do usuwania obiektow raczej nie bedzie uzywane
+    public Shape pop() {
+        Shape result = null;
         if (shapeList.size() > 0) {
-            undoHistory.add(new UndoCommand(shapeList.remove(shapeList.size() - 1)));
+            result = shapeList.remove(shapeList.size() - 1);
+            undoHistory.add(new UndoCommand(result));
             redoHistory.clear();
         }
+        return result;
     }
 
     public void push(Shape shape) {
@@ -150,9 +152,9 @@ public class PaintPanel extends javax.swing.JPanel {
         redoHistory.clear();
         shapeList.add(shape);
         repaint();
-//        System.out.println("Dodano:" + shapeList);
-//        System.out.println("Dodano:" + undoHistory);
-//        System.out.println("Dodano:" + redoHistory);
+//        System.out.println("Dodano l:" + shapeList);
+//        System.out.println("Dodano u:" + undoHistory);
+//        System.out.println("Dodano r:" + redoHistory);
     }
 
     public void undo() {
@@ -161,9 +163,9 @@ public class PaintPanel extends javax.swing.JPanel {
             redoHistory.add(c);
             c.undo();
             repaint();
-//            System.out.println("Cofnieto:" + shapeList);
-//            System.out.println("Cofnieto:" + undoHistory);
-//            System.out.println("Cofnieto:" + redoHistory);
+//            System.out.println("Cofnieto l:" + shapeList);
+//            System.out.println("Cofnieto u:" + undoHistory);
+//            System.out.println("Cofnieto r:" + redoHistory);
         }
     }
 
@@ -173,16 +175,20 @@ public class PaintPanel extends javax.swing.JPanel {
             undoHistory.add(c);
             c.redo();
             repaint();
-//            System.out.println("Ponowiono:" + shapeList);
-//            System.out.println("Ponowiono:" + undoHistory);
-//            System.out.println("Ponowiono:" + redoHistory);
+//            System.out.println("Ponowiono l:" + shapeList);
+//            System.out.println("Ponowiono u:" + undoHistory);
+//            System.out.println("Ponowiono r:" + redoHistory);
 
         }
     }
 
     void visitLast(Visitor visitor) {
         if (shapeList.size() > 0) {
-            shapeList.get(shapeList.size() - 1).accept(visitor);
+            Shape s = shapeList.get(shapeList.size() - 1);
+            s.accept(visitor);
+            undoHistory.add(new VisitorCommand(visitor, s));
+            redoHistory.clear();
+            repaint();
         }
     }
 
@@ -202,10 +208,9 @@ public class PaintPanel extends javax.swing.JPanel {
         @Override
         public void redo() {
             if (shapeList.size() > 0) {
-                shapeList.remove(shapeList.size() - 1);
+                Shape s = shapeList.remove(shapeList.size() - 1);
             }
         }
-
     }
 
     private class RedoCommand implements Command {
@@ -219,7 +224,7 @@ public class PaintPanel extends javax.swing.JPanel {
         @Override
         public void undo() {
             if (shapeList.size() > 0) {
-                shapeList.remove(shapeList.size() - 1);
+                Shape s = shapeList.remove(shapeList.size() - 1);
             }
         }
 
@@ -228,6 +233,28 @@ public class PaintPanel extends javax.swing.JPanel {
             shapeList.add(shape);
         }
 
+    }
+
+    public class VisitorCommand implements Command {
+
+        private Visitor visitor, reverseVisitor;
+        private Shape shape;
+
+        public VisitorCommand(Visitor visitor, Shape shape) {
+            this.visitor = visitor;
+            this.shape = shape;
+            this.reverseVisitor = visitor.reverse();
+        }
+
+        @Override
+        public void undo() {
+            shape.accept(reverseVisitor);
+        }
+
+        @Override
+        public void redo() {
+            shape.accept(visitor);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

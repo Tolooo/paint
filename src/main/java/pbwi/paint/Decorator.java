@@ -5,12 +5,18 @@
  */
 package pbwi.paint;
 
-public abstract class Decorator extends Shape{
+public abstract class Decorator extends Shape {
+
     protected Shape shape;
 
     public Decorator(Shape shape) {
         this.shape = shape;
     }
-    
-    public void accept(Visitor v){};
+
+    @Override
+    public void accept(Visitor v) {
+        shape.accept(v);
+    }
+;
+
 }

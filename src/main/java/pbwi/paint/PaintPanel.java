@@ -101,9 +101,15 @@ public class PaintPanel extends javax.swing.JPanel {
             } else if (shapeClass == Line.class) {
                 shape = new ColorDecorator(new LineStrokeDecorator(new Line(x, y, x1, y1), stroke), color);
             } else if (shapeClass == Polygon.class) {
-                int xpoints[] = {25, 145, 25, 145, 25};
-                int ypoints[] = {25, 25, 145, 145, 25};
+
                 int npoints = 5;
+                int minx = Math.min(x, x1);
+                int maxx = Math.max(x, x1);
+                int miny = Math.min(y, y1);
+                int maxy = Math.max(y, y1);
+
+                int xpoints[] = {minx + (maxx - minx) / 2, maxx, maxx - (maxx - minx) / 5, minx + (maxx - minx) / 5, minx};
+                int ypoints[] = {miny, miny + (maxy - miny) / 3, maxy, maxy, miny + (maxy - miny) / 3};
 
                 shape = new ColorDecorator(new LineStrokeDecorator(new Polygon(npoints, xpoints, ypoints), stroke), color);
             }

@@ -5,8 +5,11 @@
  */
 package pbwi.paint;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
@@ -17,6 +20,8 @@ public class PaintPanel extends javax.swing.JPanel {
     private static PaintPanel instance = null;
     private Class shapeClass;
     private Shape shape;
+    private Stroke stroke;
+    private Color color;
     private List<Shape> shapeList = new LinkedList();
     private List<Command> undoHistory = new LinkedList();
     private List<Command> redoHistory = new LinkedList();
@@ -30,8 +35,17 @@ public class PaintPanel extends javax.swing.JPanel {
     /**
      * Creates new form PaintPanel
      */
+    public void setStroke(float value) {
+        this.stroke = new BasicStroke(value);
+    }
+    
+    public void setColor(Color color) {
+        this.color = color;
+    }
     public PaintPanel() {
         initComponents();
+        color = Color.BLACK;
+        stroke = new BasicStroke(2);
         setShapeClass(Rectangle.class);
         this.addMouseListener(new MouseAdapter() {
 
@@ -81,17 +95,17 @@ public class PaintPanel extends javax.swing.JPanel {
         if (newShape) {
             shape = null;
             if (shapeClass == Rectangle.class) {
-                shape = new Rectangle(Math.abs(y1 - y), Math.abs(x1 - x), Math.min(x1, x), Math.min(y1, y));
+                shape = new ColorDecorator(new LineStrokeDecorator(new Rectangle(Math.abs(y1 - y), Math.abs(x1 - x), Math.min(x1, x), Math.min(y1, y)), stroke), color);
             } else if (shapeClass == Ellipse.class) {
-                shape = new Ellipse(Math.abs(y1 - y), Math.abs(x1 - x), Math.min(x1, x), Math.min(y1, y));
+                shape = new ColorDecorator( new LineStrokeDecorator(new Ellipse(Math.abs(y1 - y), Math.abs(x1 - x), Math.min(x1, x), Math.min(y1, y)), stroke), color);
             } else if (shapeClass == Line.class) {
-                shape = new Line(x, y, x1, y1);
+                shape = new ColorDecorator(new LineStrokeDecorator(new Line(x, y, x1, y1),stroke), color);
             } else if (shapeClass == Polygon.class) {
                 int xpoints[] = {25, 145, 25, 145, 25};
                 int ypoints[] = {25, 25, 145, 145, 25};
                 int npoints = 5;
 
-                shape = new Polygon(npoints, xpoints, ypoints);
+                shape = new ColorDecorator(new LineStrokeDecorator(new Polygon(npoints, xpoints, ypoints), stroke), color);
             }
             if (shape != null) {
                 shape.draw(g);

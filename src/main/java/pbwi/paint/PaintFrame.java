@@ -6,6 +6,7 @@
 package pbwi.paint;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -24,6 +25,7 @@ public class PaintFrame extends javax.swing.JFrame {
 
     public PaintFrame() {
         initComponents();
+        
         //paintPanel = PaintPanel.getInstance();
         // paintPanel.setBackground(new java.awt.Color(255,255,255));
     }
@@ -52,6 +54,10 @@ public class PaintFrame extends javax.swing.JFrame {
         xMoveInput = new javax.swing.JTextField();
         yMoveInput = new javax.swing.JTextField();
         MoveButton = new javax.swing.JButton();
+        StrokeLineComboBox = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        RedButton = new javax.swing.JButton();
+        BlueButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -138,6 +144,29 @@ public class PaintFrame extends javax.swing.JFrame {
             }
         });
 
+        StrokeLineComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1.0", "4.0", "8.0", "16.0" }));
+        StrokeLineComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StrokeLineComboBoxActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("px");
+
+        RedButton.setText("Red");
+        RedButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RedButtonActionPerformed(evt);
+            }
+        });
+
+        BlueButton.setText("Blue");
+        BlueButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BlueButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -169,7 +198,15 @@ public class PaintFrame extends javax.swing.JFrame {
                         .addComponent(UndoButton)
                         .addGap(18, 18, 18)
                         .addComponent(RedoButton)
-                        .addGap(0, 296, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(StrokeLineComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(RedButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BlueButton)
+                        .addGap(0, 101, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addComponent(paintPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -181,7 +218,11 @@ public class PaintFrame extends javax.swing.JFrame {
                 .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(UndoButton)
-                    .addComponent(RedoButton))
+                    .addComponent(RedoButton)
+                    .addComponent(StrokeLineComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(RedButton)
+                    .addComponent(BlueButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(paintPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -252,6 +293,18 @@ public class PaintFrame extends javax.swing.JFrame {
         paintPanel.repaint();
     }//GEN-LAST:event_MoveButtonActionPerformed
 
+    private void StrokeLineComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StrokeLineComboBoxActionPerformed
+        paintPanel.setStroke(Float.parseFloat((String) StrokeLineComboBox.getSelectedItem().toString()));
+    }//GEN-LAST:event_StrokeLineComboBoxActionPerformed
+
+    private void RedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RedButtonActionPerformed
+        paintPanel.setColor(Color.RED);
+    }//GEN-LAST:event_RedButtonActionPerformed
+
+    private void BlueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BlueButtonActionPerformed
+        paintPanel.setColor(Color.BLUE);
+    }//GEN-LAST:event_BlueButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -266,16 +319,20 @@ public class PaintFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BlueButton;
     private javax.swing.JButton EllipseButton;
     private javax.swing.JButton LineButton;
     private javax.swing.JButton MoveButton;
     private javax.swing.JButton PolygonButton;
     private javax.swing.JButton RectangleButton;
+    private javax.swing.JButton RedButton;
     private javax.swing.JButton RedoButton;
     private javax.swing.JButton ScaleButton;
+    private javax.swing.JComboBox<String> StrokeLineComboBox;
     private javax.swing.JButton UndoButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private pbwi.paint.PaintPanel paintPanel;
     private javax.swing.JTextField xMoveInput;
     private javax.swing.JTextField xScaleInput;

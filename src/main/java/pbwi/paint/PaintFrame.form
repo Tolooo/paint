@@ -56,7 +56,15 @@
                       <Component id="UndoButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="RedoButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="296" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="StrokeLineComboBox" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="RedButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="BlueButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="101" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
@@ -74,6 +82,10 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="UndoButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="RedoButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="StrokeLineComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="RedButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="BlueButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -226,6 +238,45 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MoveButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="StrokeLineComboBox">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="1.0"/>
+            <StringItem index="1" value="4.0"/>
+            <StringItem index="2" value="8.0"/>
+            <StringItem index="3" value="16.0"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="StrokeLineComboBoxActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="px"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="RedButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Red"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RedButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="BlueButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Blue"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BlueButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

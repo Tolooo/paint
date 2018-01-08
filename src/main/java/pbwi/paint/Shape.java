@@ -14,8 +14,6 @@ import java.awt.Stroke;
 public abstract class Shape {
 
     public final void draw(Graphics g) {
-        g.setColor(getColor());
-        ((Graphics2D) g).setStroke(getStroke());
         drawShape(g);
     }
 

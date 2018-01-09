@@ -8,8 +8,9 @@ package pbwi.paint;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Graphics;
+import java.io.Serializable;
 
-public class ColorDecorator extends Decorator{
+public class ColorDecorator extends Decorator implements Serializable{
     private Color newColor;
 
     public ColorDecorator(Shape shape, Color color) {

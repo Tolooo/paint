@@ -5,7 +5,9 @@
  */
 package pbwi.paint;
 
-public abstract class Decorator extends Shape {
+import java.io.Serializable;
+
+public abstract class Decorator extends Shape implements Serializable{
 
     protected Shape shape;
 

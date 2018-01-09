@@ -6,8 +6,9 @@
 package pbwi.paint;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 
-public class Ellipse extends Shape {
+public class Ellipse extends Shape implements Serializable {
 
     private int height;
     private int width;

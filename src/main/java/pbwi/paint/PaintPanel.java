@@ -11,10 +11,11 @@ import java.awt.Graphics;
 import java.awt.Stroke;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PaintPanel extends javax.swing.JPanel {
+public class PaintPanel extends javax.swing.JPanel implements Serializable{
 
     private static PaintPanel instance = null;
     private Class shapeClass;
@@ -25,6 +26,7 @@ public class PaintPanel extends javax.swing.JPanel {
     private List<Command> undoHistory = new LinkedList();
     private List<Command> redoHistory = new LinkedList();
     private boolean newShape;
+    private State state;
 
     public void setShapeClass(Class shapeClass) {
         this.shapeClass = shapeClass;
@@ -263,6 +265,15 @@ public class PaintPanel extends javax.swing.JPanel {
         }
     }
 
+    public Memento createMemento(){
+        return new Memento(shapeList, undoHistory, redoHistory);
+    }
+    
+    public void setMemento(Memento m){
+          this.state = m.getState();
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

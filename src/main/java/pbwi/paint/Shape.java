@@ -9,8 +9,9 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Stroke;
+import java.io.Serializable;
 
-public abstract class Shape {
+public abstract class Shape implements Serializable {
 
     public final void draw(Graphics g) {
         drawShape(g);

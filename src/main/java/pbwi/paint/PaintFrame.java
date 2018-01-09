@@ -10,8 +10,19 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JToolBar;
 
 /**
@@ -23,13 +34,69 @@ public class PaintFrame extends javax.swing.JFrame {
     private JButton Rectangle, Ellipse, Polygon, Line;
     private int x, y;
 
+   private List<Memento> lastSaved = new LinkedList();
+   private List<String> lastSavedFileName;
+   private pbwi.paint.PaintPanel newPaintPanel;
+
     public PaintFrame() {
         initComponents();
         
         //paintPanel = PaintPanel.getInstance();
         // paintPanel.setBackground(new java.awt.Color(255,255,255));
     }
-
+    
+    public boolean saveToFile(String fileName) throws IOException{
+       lastSaved.add(paintPanel.createMemento());
+       lastSavedFileName.add(fileName);
+        ObjectOutputStream out;
+        
+                    try {
+                        out = new ObjectOutputStream(new FileOutputStream(fileName));
+                        out.writeObject(paintPanel);
+                         out.close();
+//                          paintPanel = new pbwi.paint.PaintPanel();
+//                          javax.swing.GroupLayout paintPanelLayout = new javax.swing.GroupLayout(paintPanel);
+//                          paintPanel.setLayout(paintPanelLayout);
+//                           paintPanelLayout.setHorizontalGroup(
+//            paintPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addGap(0, 0, Short.MAX_VALUE)
+//        );
+//        paintPanelLayout.setVerticalGroup(
+//            paintPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addGap(0, 402, Short.MAX_VALUE)
+//        );
+        
+                          showMessageDialog(null, "File Good!");
+                         
+                    } catch (FileNotFoundException e) {
+                        showMessageDialog(null, "File Error!");
+                        return false;
+                    }
+        return true;
+    }
+    
+    public boolean readFromFile(String fileName) throws IOException, ClassNotFoundException{
+          ObjectInputStream in;
+         
+                    try {
+                        in = new ObjectInputStream(new FileInputStream(fileName));
+                         newPaintPanel = (PaintPanel) in.readObject();
+                         paintPanel.setMemento(lastSaved.get(lastSavedFileName.indexOf(fileName)));
+                         in.close();
+                         paintPanel.repaint();
+        
+         
+          
+                    } catch (FileNotFoundException e) {
+                        showMessageDialog(null, "File Error!");
+                        return false;
+                    }
+                   
+                    
+                   
+                  
+              return true;          
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,6 +125,9 @@ public class PaintFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         RedButton = new javax.swing.JButton();
         BlueButton = new javax.swing.JButton();
+        fileNameInput = new javax.swing.JTextField();
+        saveFileButton = new javax.swing.JButton();
+        loadFileButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -167,38 +237,67 @@ public class PaintFrame extends javax.swing.JFrame {
             }
         });
 
+        fileNameInput.setText("File name");
+        fileNameInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileNameInputActionPerformed(evt);
+            }
+        });
+
+        saveFileButton.setText("Save");
+        saveFileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveFileButtonActionPerformed(evt);
+            }
+        });
+
+        loadFileButton.setText("Load");
+        loadFileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadFileButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(RectangleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(PolygonButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(EllipseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(LineButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ScaleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(MoveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(xScaleInput)
-                                    .addComponent(yScaleInput)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(xMoveInput)
-                                .addComponent(yMoveInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(RectangleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(PolygonButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(EllipseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(LineButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(ScaleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(MoveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(10, 10, 10)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(xScaleInput)
+                                                .addComponent(yScaleInput)
+                                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(xMoveInput)
+                                            .addComponent(yMoveInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(fileNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(saveFileButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(loadFileButton)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
                         .addComponent(UndoButton)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(RedoButton)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(StrokeLineComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
@@ -206,28 +305,37 @@ public class PaintFrame extends javax.swing.JFrame {
                         .addComponent(RedButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(BlueButton)
-                        .addGap(0, 101, Short.MAX_VALUE))
+                        .addGap(0, 31, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
+                        .addGap(0, 0, 0)
                         .addComponent(paintPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(7, 7, 7)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(UndoButton)
-                    .addComponent(RedoButton)
-                    .addComponent(StrokeLineComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(RedButton)
-                    .addComponent(BlueButton))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(UndoButton)
+                            .addComponent(RedoButton)
+                            .addComponent(StrokeLineComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(RedButton)
+                            .addComponent(BlueButton)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(saveFileButton)
+                            .addComponent(loadFileButton))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(paintPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
+                        .addGap(2, 2, 2)
+                        .addComponent(fileNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(RectangleButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(EllipseButton)
@@ -273,7 +381,7 @@ public class PaintFrame extends javax.swing.JFrame {
     private void PolygonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PolygonButtonActionPerformed
         paintPanel.setShapeClass(Polygon.class);
     }//GEN-LAST:event_PolygonButtonActionPerformed
-
+ 
     private void UndoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UndoButtonActionPerformed
         paintPanel.undo();
     }//GEN-LAST:event_UndoButtonActionPerformed
@@ -305,6 +413,28 @@ public class PaintFrame extends javax.swing.JFrame {
         paintPanel.setColor(Color.BLUE);
     }//GEN-LAST:event_BlueButtonActionPerformed
 
+    private void fileNameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileNameInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fileNameInputActionPerformed
+
+    private void saveFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveFileButtonActionPerformed
+        try {
+            this.saveToFile((fileNameInput.getText()));
+        } catch (IOException ex) {
+            Logger.getLogger(PaintFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_saveFileButtonActionPerformed
+
+    private void loadFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadFileButtonActionPerformed
+        try {
+            this.readFromFile(fileNameInput.getText());
+        } catch (IOException ex) {
+            Logger.getLogger(PaintFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PaintFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_loadFileButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -330,14 +460,20 @@ public class PaintFrame extends javax.swing.JFrame {
     private javax.swing.JButton ScaleButton;
     private javax.swing.JComboBox<String> StrokeLineComboBox;
     private javax.swing.JButton UndoButton;
+    private javax.swing.JTextField fileNameInput;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JButton loadFileButton;
     private pbwi.paint.PaintPanel paintPanel;
+    private javax.swing.JButton saveFileButton;
     private javax.swing.JTextField xMoveInput;
     private javax.swing.JTextField xScaleInput;
     private javax.swing.JTextField yMoveInput;
     private javax.swing.JTextField yScaleInput;
     // End of variables declaration//GEN-END:variables
-
+    
+    private javax.swing.JTextField fileInput;
+    private javax.swing.JButton fileSaveButton;
+    private javax.swing.JButton fileReadButton;
 }

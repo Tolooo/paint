@@ -8,8 +8,9 @@ package pbwi.paint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.io.Serializable;
 
-public class LineStrokeDecorator extends Decorator{
+public class LineStrokeDecorator extends Decorator implements Serializable{
     private Stroke newStroke;
     
     public LineStrokeDecorator(Shape shape, Stroke stroke) {

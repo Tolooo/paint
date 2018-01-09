@@ -6,8 +6,9 @@
 package pbwi.paint;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 
-public class Line extends Shape {
+public class Line extends Shape  implements Serializable{
 
     private int x1;
     private int x2;

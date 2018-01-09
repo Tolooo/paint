@@ -6,8 +6,9 @@
 package pbwi.paint;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 
-public class Polygon extends Shape {
+public class Polygon extends Shape implements Serializable {
 
     private int nPoints;
     private int[] xPoints;

@@ -5,7 +5,7 @@
  */
 package pbwi.paint;
 
-public class ScaleVisitor implements Visitor {
+public class ScaleVisitor implements Visitor  {
 
     private final double xScale;
     private final double yScale;

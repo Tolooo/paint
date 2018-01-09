@@ -6,8 +6,9 @@
 package pbwi.paint;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 
-public class Rectangle extends Shape {
+public class Rectangle extends Shape implements Serializable {
 
     private int height;
     private int width;
